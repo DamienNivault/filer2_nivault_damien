@@ -1,0 +1,157 @@
+body {
+
+    margin: 0;
+    padding: 0;
+
+}
+
+#header {
+
+    background-color: #1E6EA9;
+    position: relative;
+    width: 100% ;
+    height: 150px;
+    margin-bottom: 5%;
+
+}
+
+#welcomeHeader {
+
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    margin: auto;
+
+}
+
+#welcomeSession {
+
+    position: relative;
+    color: white;
+    font-weight: bold;
+    font-size: 35px;
+    margin-top: 25px;
+
+}
+
+#logoutButton {
+
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    float: right;
+    text-decoration: none;
+
+}
+
+#link_file {
+
+    color: red;
+
+}
+
+.img_file {
+    color: #395870;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    width: 20%;
+    display: inline-block;
+    padding: 2%;
+}
+
+.img {
+
+    width: 50%;
+}
+
+#logout {
+
+    position: relative;
+    float: right;
+
+}
+
+.fieldsetSend {
+
+    width: auto;
+
+}
+
+h1 {
+
+    color: #395870;
+    font-weight: bold;
+    margin-left: 5%;
+
+}
+
+.sendFile input {
+
+    margin-bottom: 2%;
+    box-shadow: 1px 1px 12px #555;
+
+}
+
+.sendFile label {
+
+    padding-bottom: 25px;
+    color: #395870;
+
+}
+
+#formAccount {
+
+    position: relative;
+    float: right;
+
+}
+
+.bouton p {
+    color: #395870;
+
+}
+
+.bouton a {
+
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+#legendDrop {
+
+    color: #395870;
+
+}
+
+#legendAccount {
+
+    color: #395870;
+
+}
+
+.buttonNone {
+
+    display: none;
+
+}
+
+.alignButton {
+
+    display: inline-block;
+}
+
+.statutMsg {
+
+    position: relative;
+    color: #425B8A;
+    left: 40%;
+    width: 60%;
+
+}
+.none{
+    display: none;
+}
