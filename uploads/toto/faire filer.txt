@@ -1,0 +1,23 @@
+dam dam vide
+omar omar
+coco coco
+	Montrer images erreur !
+
+Amélioration à venir : 
+
+factorisation du code
+Format d'oublie de password
+classification des fichiers par apport à la date d'ajout.
+un css plus UX : bouton côte à côte, bon affichage message d'erreur, plus bel interface
+crée un dossier pour chaque utilisateur à la création du profil
+faire un rename individuelle pour chaque fichier
+sécurité
+
+METTRE FORMULAIRE COMME LE JAVASCRIPT, AVEC SLIDE UP
+
+faire du css pour les br.
+Prohiber les br dans les echos.
+
+Logs : avoir le nom d'utilisateur, ce qu'il a fait la date etc.
+
+rien avant le session start 

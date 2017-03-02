@@ -1,0 +1,39 @@
+<?php
+session_start();
+if ($_SESSION['username']) {
+    # code...
+    echo "Hello, ". $_SESSION['username']."! You have successfully logged in. <br><a href='logout.php'>Logout</a>";
+    try {
+        $dbh = new PDO('mysql:host=localhost;dbname=filerdb', 'root');
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $q = 'SELECT * FROM `users` WHERE `username`="'.$_SESSION['username'].'"';
+        $statement = $dbh->prepare($q);
+        $statement->execute([
+
+
+
+        ]);
+
+        while($donnees = $statement ->fetch())
+{
+?>
+<p>
+    <strong>Jeu</strong> : <?php echo $donnees['username']; ?><br />
+    Le possesseur de ce jeu est : <?php echo $donnees['password']; ?>, et il le vend à <?php echo $donnees['email']; ?> euros !<br />
+
+    <?php
+    }
+
+
+
+    ?>
+<?php
+
+    } catch (PDOException  $e) {
+        die("Error: " . $e);
+    }
+}
+else
+    header("Location: index.php");
+
+?>

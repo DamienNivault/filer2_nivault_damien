@@ -25,6 +25,9 @@ function logout_action()
 {
     session_destroy();
     header('Location: ?action=login');
+    $date = give_me_date();
+    $text = $date .' '. $_SESSION['username'].' disconnected'."\n";
+    write_log('access.log',$text);
     exit(0);
 }
 
@@ -56,7 +59,7 @@ function home_action()
         $delete_file_succes = '';
 
 
-            if(upload_file()){
+            if(upload_file($_POST)){
                 $add_file_succes = 'Fichier ajouté avec succés';
             }
         if(delete_file()){
