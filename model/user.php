@@ -35,15 +35,27 @@ function get_user_by_username($username)
  */
 function user_check_register($data)
 {
-    if (empty($data['username']) OR empty($data['password']) OR empty($data['email']))
+
+
+    if (empty($data['usernameRegister']) OR empty($data['passwordRegister']) OR empty($data['email']) OR empty($data['passwordConfirm'])) {
+        echo $error['empty'] = 'Please enter all information';
         return false;
-    $data = getUserByUsername($data['username']);
+    }
+
+
+    $data = get_user_by_username($data['usernameRegister']);
     if ($data !== false)
         return false;
 
 
     // TODO : Check valid email
     return true;
+}
+function get_user_by_email($email)
+{
+    $data = find_one_secure("SELECT * FROM users WHERE email = :email",
+        ['email' => $email]);
+    return $data;
 }
 
 function user_hash($password)
@@ -54,8 +66,8 @@ function user_hash($password)
 
 function user_register($data)
 {
-    $user['username'] = $data['username'];
-    $user['password'] = user_hash($data['password']);
+    $user['username'] = $data['usernameRegister'];
+    $user['password'] = user_hash($data['passwordRegister']);
     $user['email'] = $data['email'];
     db_insert('users', $user);
     mkdir('uploads/' . $user['username']);
@@ -98,37 +110,45 @@ function upload_file($post="")
 {
     if (isset($_POST['upload'])) {
         $type = '';
+        $valid_form = false;
+        $file_exist = false;
+        $status_form = '';
+        $status_files='';
         $extension_images = array('.jpg', '.jpeg', '.png', 'gif');
         $extension_txt = array('.txt', '.docx');
         $extension_pdf = array('.pdf');
-        if (in_array(file_extension($_FILES["file"]['name']), $extension_images)) {
-            $type = 'image';
-
-        } else if (in_array(file_extension($_FILES["file"]['name']), $extension_txt)) {
-            $type = 'text';
-        } else if (in_array(file_extension($_FILES["file"]['name']), $extension_pdf)) {
-            $type = 'pdf';
-        }
         $username = $_SESSION['username'];
         $name = $_FILES["file"]['name'];
+        $url ='uploads/' . $username . '/' .  $_FILES["file"]['name'];;
 
 
-        if($post['edit_name']){
-            $files['file_name'] = $post['edit_name'];
 
-        }else{
-                $files['file_name']= $name;
-        }
-        $files['file_url'] = 'uploads/' . $username . '/' . $files["file_name"];
-        $files['type'] = $type;
-        $files['id_user'] = $_SESSION['user_id'];
-        db_insert('files', $files);
-        move_uploaded_file($_FILES["file"]["tmp_name"], $files['file_url']);
-        $date = give_me_date();
-        $text = $date . ' ' . $_SESSION['username'] . ' has upload' . ' ' . $_FILES["file"]['name'] . ' type ' . $type . "\n";
-        write_log('access.log', $text);
+                if (in_array(file_extension($_FILES["file"]['name']), $extension_images)) {
+                    $type = 'image';
 
-    }
+                } else if (in_array(file_extension($_FILES["file"]['name']), $extension_txt)) {
+                    $type = 'text';
+                } else if (in_array(file_extension($_FILES["file"]['name']), $extension_pdf)) {
+                    $type = 'pdf';
+                }
+
+
+                if ($post['edit_name']) {
+                    $files['file_name'] = $post['edit_name'];
+
+                } else {
+                    $files['file_name'] = $name;
+                }
+                $files['file_url'] = $url;
+                $files['type'] = $type;
+                $files['id_user'] = $_SESSION['user_id'];
+                db_insert('files', $files);
+                move_uploaded_file($_FILES["file"]["tmp_name"], $files['file_url']);
+                $date = give_me_date();
+                $text = $date . ' ' . $_SESSION['username'] . ' has upload' . ' ' . $_FILES["file"]['name'] . ' type ' . $type . "\n";
+                write_log('access.log', $text);
+            }
+
 }
 
 function get_file_by_file_url($file_url)
@@ -168,7 +188,7 @@ function extension_txt()
 
 function extension_accept($file_name)
 {
-    $extension_accept = array('.jpg', '.jpeg', '.txt', '.png', '.pdf');
+    $extension_accept = array('.jpg', '.jpeg', '.txt', '.png', '.pdf','.docx');
     $format = file_extension($file_name);
     return in_array($format, $extension_accept);
 }
@@ -220,9 +240,7 @@ function rename_file()
                         'file_url' => $file_url,
                         'current_file_url' => $current_file_url,
                         'id_user' => $id_user]);
-                echo $current_file_url;
-                echo $file_url;
-                rename($current_file_url, $file_url);
+                          rename($current_file_url, $file_url);
                 $bool = true;
             }
             $date = give_me_date();
@@ -233,3 +251,10 @@ function rename_file()
     return $bool;
 }
 
+function errorsRegister(){
+    $error = array();
+    $error['password'] = 'Please enter a correct password in the confirm';
+    $error['email']= 'Email already exist';
+    $error['empty'] = 'Empty information';
+    return $error;
+}

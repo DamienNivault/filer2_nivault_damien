@@ -1,27 +1,27 @@
-#form {
+#formRegister {
     font-family: 'Open Sans Condensed', arial, sans-serif;
     width: 500px;
     padding: 30px;
     background: #FFFFFF;
     color: #000000;
-    margin: 150px auto;
+    margin: 10% 30%;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.22); }
 
-#form label {
+#formRegister label {
     padding: 2%; }
 
-#form h2 {
+#formRegister h2 {
     background: #4D4D4D;
-    text-transform: uppercase;
-    font-family: 'Open Sans Condensed',sans-serif;
+    text-transformRegister: uppercase;
+    font-family: 'Open Sans Condensed', sans-serif;
     color: #797979;
     font-size: 18px;
     font-weight: 100;
     padding: 20px;
     margin: -30px -30px 30px -30px; }
 
-#form input[type="text"],
-#form input[type="password"] {
+#formRegister input[type="text"],
+#formRegister input[type="password"] {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -36,15 +36,15 @@
     font: 16px Arial, Helvetica, sans-serif;
     height: 45px; }
 
-#form input[type="checkbox"] {
+#formRegister input[type="checkbox"] {
     padding: 2%;
     margin-bottom: 2%; }
 
-#form input[type="radio"] {
+#formRegister input[type="radio"] {
     padding: 2%;
     margin-bottom: 2%; }
 
-#form input[type="submit"] {
+#formRegister input[type="submit"] {
     border: 1px solid #27A0A0;
     display: inline-block;
     cursor: pointer;
@@ -54,9 +54,9 @@
     font-size: 14px;
     padding: 8px 18px;
     text-decoration: none;
-    text-transform: uppercase; }
+    text-transformRegister: uppercase; }
 
-#form input[type="submit"]:hover {
+#formRegister input[type="submit"]:hover {
     background-color: #34CACA; }
 
 #result {
@@ -68,11 +68,21 @@
     color: #FF0000;
     font-weight: bold; }
 
-#form a {
+#formRegister a {
     position: relative;
     text-decoration: none;
     color: #2CBBBB; }
-#form span{
+#formRegister span{
     margin-left: 1%;
 }
+header{
+    position: fixed;
+    width: 100%;
+    top:1%;
+    color: #1E6EA9;
+    margin-left: 5%;
+    font-size: 130%;
+    font-weight: bold;
+}
 /*# sourceMappingURL=style.css.map */
+

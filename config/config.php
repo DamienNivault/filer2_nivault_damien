@@ -1,12 +1,9 @@
 <?php
 $routes = [
-
-    'about'    => 'default',
-    'contact'  => 'default',
     'register' => 'user',
     'login'    => 'user',
     'logout'   => 'user',
-    'home'     => 'user',
+    'home'     => 'default',
     'profile'   => 'user',
 ];
 

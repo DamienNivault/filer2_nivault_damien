@@ -11,7 +11,7 @@ function login_action()
         if (user_check_login($_POST))
         {
             user_login($_POST['username']);
-            header('Location: ?action=home');
+            header('Location: ?action=profile');
             exit(0);
         }
         else {
@@ -32,24 +32,36 @@ function logout_action()
 }
 
 
+
 function register_action()
 {
-   $error = '';
-    if ($_SERVER['REQUEST_METHOD'] === 'POST')
-    {
-        if (user_check_register($_POST))
-        {
-            user_register($_POST);
-            header('Location: ?action=home');
-            exit(0);
+    $error ='';
+$errors = errorsRegister();
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (user_check_register($_POST)) {
+            if( !isset($_POST['passwordRegister']) ||
+                !isset($_POST['passwordConfirm']) ||
+                $_POST['passwordRegister'] != $_POST['passwordConfirm']) {
+                    $error= $errors['password'];
+            }
+            if (get_user_by_email($_POST["email"])) {
+               $error= $errors['email'];
+            }else{
+                user_register($_POST);
+                header('Location: ?action=profile');
+                exit(0);
+            }
+
+        } else {
+            $error = $errors['empty'];
         }
-        else {
-            $error = "Invalid data";
-        }
+
+
+
     }
     require('views/register.php');
 }
-function home_action()
+function profile_action()
 {
     if (!empty($_SESSION['user_id']))
     {
@@ -57,25 +69,30 @@ function home_action()
 
         $add_file_succes = '';
         $delete_file_succes = '';
-
+        $files = my_files();
 
             if(upload_file($_POST)){
-                $add_file_succes = 'Fichier ajouté avec succés';
+                $url = get_file_by_file_url($files);
+                if(file_exist($url)){
+                    $error='Ur file is already in';
+                }
             }
+
         if(delete_file()){
-            header('Location: ?action=home');
+            header('Location: ?action=profile');
         }
         if(rename_file()){
-            header('Location: ?action=home');
+            header('Location: ?action=profile');
         }
-                 $files = my_files();
 
 
 
 
-        //$user = get_user_by_id(1);
+
+
         $username = $user['username'];
-        require('/views/home.php');
+
+        require('/views/profile.php');
     }
     else {
         header('Location: ?action=login');
