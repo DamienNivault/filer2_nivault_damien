@@ -12,10 +12,15 @@ body{
     height:  100vh;
 }
 #logout{
-    margin-right: 20%;
+    margin-right: 5%;
 }
-header>p{
-    margin-top: 50%;
+#login>p{
+    position: relative;
+    top: 50%;
+}
+#register>p{
+    position: relative;
+    top: 50%;
 }
 .align{
     display: inline-block;
@@ -24,18 +29,13 @@ header>p{
     text-align: center;
 }
 header{
-    position: fixed;
     width: 100%;
     top:1%;
-    font-size: 150%;
+    font-size: 130%;
     color: #1E6EA9;
 
 }
-#title{
-    margin-left: 30%;
-    font-size: 170%;
-    font-weight: bold;
-}
+
 
 #login:hover{
     opacity:0.5;
@@ -46,4 +46,7 @@ header{
     opacity:0.5;
     transition:0.5s;
     background: blue;
+}
+#titleHome{
+    margin-left: 30%;
 }

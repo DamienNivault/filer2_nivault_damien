@@ -7,7 +7,7 @@
 </head>
 <body>
 <header>
-    <span id="title">Welcome to LibertyFile</span>
+    <span id="titleHome">Welcome to LibertyFile</span>
 </header>
     <div id="login" class="align">
         <p>Login</p>

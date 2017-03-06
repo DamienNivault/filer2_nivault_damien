@@ -8,9 +8,9 @@
 <body>
 <header>
     <div id="welcome">
-        <?php echo  " <span>Welcome " .$username."</span>"?>
-        <span id="title"> LibertyFile</span>
-        <a href="?action=logout" id="logout">Logout</a>
+        <?php echo  " <div id='welcomeSession'>Welcome " .$username."</div>"?>
+        <div id="title"> LibertyFile</div>
+        <div><a href="?action=logout" id="logout">Logout</a></div>
     </div>
 </header>
 <div id="blockError">
@@ -31,6 +31,18 @@
 
     </form>
 
+    <form action="?action=profile" method="POST" enctype="multipart/form-data" class="sendFile">
+        <fieldset class="fieldsetSend">
+            <legend> Replace a file</legend>
+
+            <input type="file" name="file_to_replace" id="file_to_replace"><br><br>
+            <label for="edit_name">Name the file to replace</label><br><br>
+            <input type="text" name="name_file_to_replace" id="name_file_to_replace"><br>
+            <input type="submit" name="replace" value="submit">
+        </fieldset>
+
+    </form>
+
 </div>
 
 <?php
@@ -41,15 +53,21 @@ foreach ($files as $key) {
 
 
     echo "<div class='img_file'>";
-    if($key['type']==='image') {
+    if($key['types']==='image') {
         echo "<img class='img' src=" . $key['file_url'] . " alt=" . $key['file_name'] . ">";
     }
-    else if($key['type']==='text') {
+    else if($key['types']==='text') {
         echo "<img class='img' src='assets/images/text.png' alt='File Text'>";
     }
-    else if($key['type']==='pdf'){
+    else if($key['types']==='pdf'){
         echo "<embed class='img' src=" . $key['file_url'].">";
     }
+  /*  else if($key['type']==='audio'){
+        echo "<audio controls='controls' class='img' <source src=".$key['file_url']." type='audio/mp4'>".'</audio>';
+    }
+    else if($key['type']==='video'){
+        echo "<video controls='controls' class='img' <source src=".$key['file_url']." type='audio/mp4'>".'</video>';
+    }*/
 
     echo "<p class='bouton'>" . $key['file_name'] . "</p><br><div class='alignButton'><a  href='" . $key['file_url'] . "'   download='" . $key['file_name'] . "'><img   title='Téléchargement' alt='téléchargement'  src='assets/images/bouton-dl.png'></a></div>";
     echo "<form action=\"?action=profile\" method=\"POST\" id='formDelete' class=\"sendFile\">
@@ -61,7 +79,7 @@ foreach ($files as $key) {
                   <input class = 'none' type='text' name='current_file_name' value='" . $key['file_name'] . "'>
                                         <input class = 'none' type='text' name='file_to_rename' value='" . $key['file_url'] . "'>
                                           <input type=\"text\" name=\"new_name\" id=\"new_name\" placeholder='rename ur file'><br>
-                                          <input type=\"submit\" name=\"submit_rename\" value=\"submit\">
+                                          <input type=\"submit\" name=\"submit_rename\" value=\"rename\">
                           </form>";
     echo "</div>";
 

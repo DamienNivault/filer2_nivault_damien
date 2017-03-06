@@ -2,7 +2,7 @@
 
 require_once('model/db.php');
 
-function give_me_date()
+function give_date()
 {
     $date = date("d-m-Y");
     $heure = date("H:i");
@@ -71,6 +71,9 @@ function user_register($data)
     $user['email'] = $data['email'];
     db_insert('users', $user);
     mkdir('uploads/' . $user['username']);
+    $date = give_date();
+    $text = $date . ' ' . $user['username'] . ' has register'."\n";
+    write_log('access.log', $text);
 }
 
 function user_check_login($data)
@@ -100,7 +103,7 @@ function user_login($username)
 
     $_SESSION['user_id'] = $data['id'];
     $_SESSION['username'] = $data['username'];
-    $date = give_me_date();
+    $date = give_date();
     $text = $date . ' ' . $_SESSION['username'] . ' logged in' . "\n";
     write_log('access.log', $text);
     return true;
@@ -110,16 +113,14 @@ function upload_file($post="")
 {
     if (isset($_POST['upload'])) {
         $type = '';
-        $valid_form = false;
-        $file_exist = false;
-        $status_form = '';
-        $status_files='';
         $extension_images = array('.jpg', '.jpeg', '.png', 'gif');
         $extension_txt = array('.txt', '.docx');
         $extension_pdf = array('.pdf');
+       /* $extension_audio = array('.mp3');
+        $extension_video = array('.mvk','.avi','.mp4');*/
         $username = $_SESSION['username'];
         $name = $_FILES["file"]['name'];
-        $url ='uploads/' . $username . '/' .  $_FILES["file"]['name'];;
+        $url ='uploads/' . $username . '/' .  $_FILES["file"]['name'];
 
 
 
@@ -131,6 +132,13 @@ function upload_file($post="")
                 } else if (in_array(file_extension($_FILES["file"]['name']), $extension_pdf)) {
                     $type = 'pdf';
                 }
+               /* else if (in_array(file_extension($_FILES["file"]['name']), $extension_audio)) {
+                    $type = 'audio';
+                }
+                else if (in_array(file_extension($_FILES["file"]['name']), $extension_video)) {
+                    $type = 'video';
+                }*/
+
 
 
                 if ($post['edit_name']) {
@@ -140,15 +148,73 @@ function upload_file($post="")
                     $files['file_name'] = $name;
                 }
                 $files['file_url'] = $url;
-                $files['type'] = $type;
+                $files['types'] = $type;
                 $files['id_user'] = $_SESSION['user_id'];
                 db_insert('files', $files);
                 move_uploaded_file($_FILES["file"]["tmp_name"], $files['file_url']);
-                $date = give_me_date();
-                $text = $date . ' ' . $_SESSION['username'] . ' has upload' . ' ' . $_FILES["file"]['name'] . ' type ' . $type . "\n";
+                $date = give_date();
+                $text = $date . ' ' . $_SESSION['username'] . ' has upload' . ' ' . $_FILES["file"]['name'] . ' type ' . $type . $_FILES["file"]["tmp_name"]. "\n";
                 write_log('access.log', $text);
+                header("Refresh:0");
             }
 
+}
+
+function replace_file()
+{
+    if (isset($_POST['replace'])) {
+        $new_file_name = $_FILES["file_to_replace"]['name'];
+        $tmp_name = $_FILES['file_to_replace']['tmp_name'];
+        $file_to_replace = $_POST['name_file_to_replace'];
+        $id_user = $_SESSION['user_id'];
+        $new_url = 'uploads/' . $_SESSION['username'] . '/' . $new_file_name;
+        $old_url = 'uploads/' . $_SESSION['username'] . '/' . $file_to_replace;
+        $type = '';
+        $extension_images = array('.jpg', '.jpeg', '.png', 'gif');
+        $extension_txt = array('.txt', '.docx');
+        $extension_pdf = array('.pdf');
+        if (in_array(file_extension($new_file_name), $extension_images)) {
+            $type = 'image';
+
+        } else if (in_array(file_extension($new_file_name), $extension_txt)) {
+            $type = 'text';
+        } else if (in_array(file_extension($new_file_name), $extension_pdf)) {
+            $type = 'pdf';
+        }
+
+        find_one_secure("UPDATE files SET file_url = :new_url
+            WHERE  id_user= :id_user AND file_name = :file_to_replace ",
+            ['id_user' => $id_user,
+                'file_to_replace' => $file_to_replace,
+                'new_url' => $new_url]);
+        find_one_secure("UPDATE files SET types = :types
+            WHERE  id_user= :id_user AND file_name = :file_to_replace  ",
+            ['id_user' => $id_user,
+                'types', $type,
+                'file_to_replace' => $new_file_name
+            ]);
+        find_one_secure("UPDATE files SET file_name = :new_file_name
+            WHERE  id_user= :id_user AND file_name = :file_to_replace ",
+            ['id_user' => $id_user,
+                'file_to_replace' => $file_to_replace,
+                'new_file_name' => $new_file_name
+            ]);
+
+
+
+
+            move_uploaded_file($tmp_name, $new_url);
+            unlink($old_url);
+
+            $date = give_date();
+            $text = $date . ' ' . $_SESSION['username'] . ' has replace' . $file_to_replace . ' into ' . $new_file_name . ' ' . $new_url . $old_url.$type."\n";
+            write_log('access.log', $text);
+
+            echo "File replace with success";
+            header("Refreh:0");
+            return true;
+
+    }
 }
 
 function get_file_by_file_url($file_url)
@@ -157,6 +223,15 @@ function get_file_by_file_url($file_url)
     $data = find_one_secure("SELECT * FROM files WHERE file_url = :file_url AND 
     								id_user = :id_user",
         ['file_url' => $file_url,
+            'id_user' => $id_user]);
+    return $data;
+}
+function get_file_by_file_name($file_name)
+{
+    $id_user = $_SESSION['user_id'];
+    $data = find_one_secure("SELECT * FROM files WHERE file_name = :file_name AND 
+    								id_user = :id_user",
+        ['file_url' => $file_name,
             'id_user' => $id_user]);
     return $data;
 }
@@ -199,6 +274,7 @@ function extension_img()
     return $extension_images;
 }
 
+
 function delete_file()
 {
     $bool = false;
@@ -209,21 +285,20 @@ function delete_file()
             delete_one_secure("DELETE FROM files WHERE file_url = :file_url AND id_user = :id_user",
                 ['file_url' => $file_url,
                     'id_user' => $id_user]);
-            $date = give_me_date();
+            $date = give_date();
             $text = $date . ' ' . $_SESSION['username'] . ' has delete' . ' ' . $file_url . "\n";
             write_log('access.log', $text);
             unlink($file_url);
             $bool = true;
-
         }
     }
-
     return $bool;
 }
 
 function rename_file()
 {
-    $bool = false;
+    $error='';
+
     if (isset($_POST['submit_rename'])) {
         if ($_POST['current_file_name'] != '' && $_POST['file_to_rename'] != '' && $_POST['new_name'] != '') {
             $id_user = $_SESSION['user_id'];
@@ -232,29 +307,34 @@ function rename_file()
             $file_ext = strrchr($file_to_rename, '.');
             $file_name = $_POST['new_name'] . $file_ext;
             $file_url = substr($current_file_url, 0, -(strlen($file_to_rename))) . $file_name;
-
-
             if (!file_exist($file_url)) {
-                rename_one_secure("UPDATE files SET file_name = :file_name , file_url = :file_url  WHERE id_user = :id_user AND file_url = :current_file_url",
-                    ['file_name' => $file_name,
-                        'file_url' => $file_url,
-                        'current_file_url' => $current_file_url,
-                        'id_user' => $id_user]);
-                          rename($current_file_url, $file_url);
-                $bool = true;
+
+                    rename_one_secure("UPDATE files SET file_name = :file_name , file_url = :file_url  WHERE id_user = :id_user AND file_url = :current_file_url",
+                        ['file_name' => $file_name,
+                            'file_url' => $file_url,
+                            'current_file_url' => $current_file_url,
+                            'id_user' => $id_user]);
+                    rename($current_file_url, $file_url);
+
+                }
+                $date = give_date();
+                $text = $date . ' ' . $_SESSION['username'] . ' has rename' . ' ' . $file_to_rename . ' ' . 'in' . ' ' . $file_name . "\n";
+                write_log('access.log', $text);
+            if ($file_to_rename === $file_name) {
+                return false;
             }
-            $date = give_me_date();
-            $text = $date . ' ' . $_SESSION['username'] . ' has rename' . ' ' . $file_to_rename . ' ' . 'in' . ' ' . $file_name . "\n";
-            write_log('access.log', $text);
+            }
         }
-    }
-    return $bool;
+
+
+
 }
 
-function errorsRegister(){
+function errors(){
     $error = array();
     $error['password'] = 'Please enter a correct password in the confirm';
     $error['email']= 'Email already exist';
     $error['empty'] = 'Empty information';
+    $error['rename'] = 'Name already taken';
     return $error;
 }
