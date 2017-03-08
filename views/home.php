@@ -11,9 +11,9 @@
 <header>
     <span id="titleHome">Welcome to LibertyFile</span>
 </header>
-    <div id="login" class="align">
-        <p>Login</p>
-    </div>
+<div id="login" class="align">
+    <p>Login</p>
+</div>
 <div id="register" class="align">
     <p>Register</p>
 </div>

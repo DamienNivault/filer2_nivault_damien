@@ -1,3 +1,9 @@
+body {
+    background-image: url("http://iwallpapers2.free.fr/images/Espace/Nebuleuse_fond_ecran_-_1920x1080.jpg");
+    background-size: auto;
+    background-repeat: no-repeat;
+}
+
 #formLogin {
     font-family: 'Open Sans Condensed', arial, sans-serif;
     width: 500px;
@@ -5,10 +11,12 @@
     background: #FFFFFF;
     color: #000000;
     margin: 10% 30%;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.22); }
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.22);
+}
 
 #formLogin label {
-    padding: 2%; }
+    padding: 2%;
+}
 
 #formLogin h2 {
     background: #4D4D4D;
@@ -18,7 +26,8 @@
     font-size: 18px;
     font-weight: 100;
     padding: 20px;
-    margin: -30px -30px 30px -30px; }
+    margin: -30px -30px 30px -30px;
+}
 
 #formLogin input[type="text"],
 #formLogin input[type="password"] {
@@ -34,15 +43,18 @@
     background: transparent;
     margin-bottom: 10px;
     font: 16px Arial, Helvetica, sans-serif;
-    height: 45px; }
+    height: 45px;
+}
 
 #formLogin input[type="checkbox"] {
     padding: 2%;
-    margin-bottom: 2%; }
+    margin-bottom: 2%;
+}
 
 #formLogin input[type="radio"] {
     padding: 2%;
-    margin-bottom: 2%; }
+    margin-bottom: 2%;
+}
 
 #formLogin input[type="submit"] {
     border: 1px solid #27A0A0;
@@ -57,33 +69,40 @@
 }
 
 #formLogin input[type="submit"]:hover {
-    background-color: #34CACA; }
+    background-color: #34CACA;
+}
 
 #formLogin a {
     position: relative;
     text-decoration: none;
-    color: #2CBBBB; }
-#formLogin span{
+    color: #2CBBBB;
+}
+
+#formLogin span {
     margin-left: 1%;
 }
-header{
+
+header {
 
     width: 100%;
-    top:1%;
+    top: 1%;
     color: #1E6EA9;
     margin-left: 5%;
     font-size: 130%;
     font-weight: bold;
 }
-#blockError{
+
+#blockError {
     height: 10px;
     color: red;
     font-weight: bold;
 }
-#title{
+
+#title {
     margin-left: 30%;
     font-weight: bold;
-    font-size : 150%;
+    font-size: 150%;
 }
+
 /*# sourceMappingURL=style.css.map */
 

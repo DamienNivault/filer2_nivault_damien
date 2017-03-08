@@ -1,4 +1,10 @@
-
+body {
+    background-image: url("http://iwallpapers2.free.fr/images/Espace/Nebuleuse_fond_ecran_-_1920x1080.jpg");
+    background-size: auto;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+}
 #blockError{
     height: 10px;
     color: red;

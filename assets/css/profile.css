@@ -1,5 +1,9 @@
 body {
 
+    background-image: url("http://iwallpapers2.free.fr/images/Espace/Nebuleuse_fond_ecran_-_1920x1080.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
     margin: 0;
     padding: 0;
 
@@ -12,7 +16,7 @@ body {
     justify-content: baseline;
     align-items: center;
     align-content: stretch;
-   }
+}
 
 #logoutButton {
 
@@ -24,10 +28,8 @@ body {
 
 }
 
-
-
 .img_file {
-    color: #395870;
+
     font-size: 18px;
     font-weight: bold;
     text-align: center;
@@ -46,9 +48,9 @@ body {
 
     position: relative;
 
-    text-decoration:none;
+    text-decoration: none;
     margin-left: 5%;
-    color:#1E6EA9;
+    color: white;
 
 }
 
@@ -77,10 +79,8 @@ h1 {
 .sendFile label {
 
     padding-bottom: 25px;
-    color: #395870;
 
 }
-
 
 #formAccount {
 
@@ -89,29 +89,11 @@ h1 {
 
 }
 
-.bouton p {
-    color: #395870;
-
-}
-
 .bouton a {
 
-    color: #ffffff;
     text-align: center;
     vertical-align: middle;
     text-decoration: none;
-}
-
-#legendDrop {
-
-    color: #395870;
-
-}
-
-#legendAccount {
-
-    color: #395870;
-
 }
 
 .buttonNone {
@@ -125,61 +107,58 @@ h1 {
     display: inline-block;
 }
 
-.statutMsg {
-
-    position: relative;
-    color: #425B8A;
-    left: 40%;
-    width: 60%;
-
-}
-.none{
+.none {
     display: none;
 }
 
-.container_img{
+.container_img {
 }
-header{
+
+header {
     width: 100%;
-    top:1%;
+    top: 1%;
     font-size: 150%;
-    color: #1E6EA9;
     height: 10vh;
 
 }
-#title{
+
+#title {
 
     font-size: 170%;
     font-weight: bold;
     margin-left: 30%;
-  }
+}
 
-.sendFile input[name="new_name"]{
+.sendFile input[name="new_name"] {
     margin-left: 12%;
     text-align: center;
 
 }
+
 .sendFile input[name="submit_rename"] {
     margin: 1% 15%;
 
 }
 
-#formDelete{
+#formDelete {
     display: inline-block;
     margin: 5%;
 }
-#blockError{
+
+#blockError {
     height: 10px;
     color: red;
     font-weight: bold;
 }
-#welcomeSession{
+
+#welcomeSession {
     margin-left: 2%;
 }
 
-#titleLogout{
+#titleLogout {
     margin-left: 20%;
 }
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -190,8 +169,8 @@ header{
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 
 }
 
@@ -201,18 +180,20 @@ header{
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-      width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%; /* Could be more or less, depending on screen size */
 }
 
-textarea{
+textarea {
     margin-top: 5%;
     width: 80%;
     height: 70vh;
 
 }
-.show{
+
+.show {
     display: block;
 }
-.align{
+
+.align {
     display: inline-block;
 }

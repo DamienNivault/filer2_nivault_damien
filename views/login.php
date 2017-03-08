@@ -7,12 +7,12 @@
 </head>
 <body>
 <header>
-<span id="title"> Login in LibertyFile</span>
+    <span id="title"> Login in LibertyFile</span>
 </header>
 <div id="blockError">
-<?php if (!empty($error)): ?>
-    <p>Error : <?php echo $error ?></p>
-<?php endif; ?>
+    <?php if (!empty($error)): ?>
+        <p>Error : <?php echo $error ?></p>
+    <?php endif; ?>
 </div>
 <div id="formLogin">
 

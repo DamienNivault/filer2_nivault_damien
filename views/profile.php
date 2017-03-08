@@ -25,10 +25,10 @@
 <div id="form" class="align">
     <form action="?action=profile" method="POST" enctype="multipart/form-data" class="sendFile">
         <fieldset class="fieldsetSend">
-            <legend> Drop you're file</legend>
+            <legend> Drop your file</legend>
 
             <input type="file" name="file" id="file"><br><br>
-            <label for="edit_name">Name ur File, or not</label><br><br>
+            <label for="edit_name">Name your file, or not</label><br><br>
             <input type="text" name="edit_name" id="edit_name"><br>
             <input type="submit" name="upload" value="submit">
         </fieldset>
