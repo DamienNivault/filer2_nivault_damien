@@ -42,34 +42,40 @@ function register_action()
     $error ='';
 $errors = errors();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (user_check_register($_POST)) {
-            if( !isset($_POST['passwordRegister']) ||
-                ($_POST['passwordConfirm']) ||
-                $_POST['passwordRegister'] != $_POST['passwordConfirm']) {
-                    $error= $errors['password'];
-                $date = give_date();
-                $text = $date . ''. ' a user confirm a wrong password'."\n";
-                write_log('security.log', $text);
-            }
-            if (get_user_by_email($_POST["email"])) {
-               $error= $errors['email'];
-                $date = give_date();
-                $text = $date . ''. ' a user enter an email already exit'."\n";
-                write_log('security.log', $text);
-            }else{
-                user_register($_POST);
-                header('Location: ?action=profile');
-                exit(0);
-            }
-
-        } else {
-            $error = $errors['empty'];
-        }
 
 
+                    if( !isset($_POST['passwordRegister']) ||
+                        ($_POST['passwordConfirm']) ||
+                        $_POST['passwordRegister'] != $_POST['passwordConfirm']) {
+                        $error= $errors['password'];
+                        $date = give_date();
+                        $text = $date . ' '.'The confirm password is different'."\n";
+                        write_log('security.log', $text);
+                    }
+                   else  if (get_user_by_email($_POST["email"])) {
+                        $error= $errors['email'];
+                        $date = give_date();
+                        $text = $date . ' '.' user enter an email already exist  '."\n";
+                        write_log('security.log', $text);
+                    }
+                    if(verifEmail($_POST['email'])) {
+                        $error= $errors['invalid'];
+                        $date = give_date();
+                        $text = $date . ' '.'User enter an invalid email'."\n";
+                        write_log('security.log', $text);
+                    }
+                    else
+                    {
+                        user_register($_POST);
+                        header('Location: ?action=profile');
+                        exit(0);
+                    }
 
-    }
-    require('views/register.php');
+                }
+
+
+
+            require('views/register.php');
 }
 function profile_action()
 {
@@ -113,7 +119,9 @@ function profile_action()
         }
 
 
-
+    if(modify()){
+        header('Location: ?action=profile');
+    }
 
 
 

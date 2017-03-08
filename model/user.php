@@ -38,7 +38,7 @@ function user_check_register($data)
 
 
     if (empty($data['usernameRegister']) OR empty($data['passwordRegister']) OR empty($data['email']) OR empty($data['passwordConfirm'])) {
-        echo $error['empty'] = 'Please enter all information';
+
         return false;
     }
 
@@ -46,6 +46,8 @@ function user_check_register($data)
     $data = get_user_by_username($data['usernameRegister']);
     if ($data !== false)
         return false;
+
+
 
 
     // TODO : Check valid email
@@ -57,7 +59,14 @@ function get_user_by_email($email)
         ['email' => $email]);
     return $data;
 }
+function verifEmail($data){
+    $invalid = false;
+    if (!filter_var($data, FILTER_VALIDATE_EMAIL)) {
+        $invalid = true;
+        return $invalid;
+    }
 
+}
 function user_hash($password)
 {
     $hash = password_hash($password, PASSWORD_BCRYPT, ['salt' => 'saltysaltysaltysalty!!']);
@@ -113,35 +122,11 @@ function upload_file($post="")
 {
     if (isset($_POST['upload'])) {
         $type = '';
-        $extension_images = array('.jpg', '.jpeg', '.png', 'gif');
-        $extension_txt = array('.txt', '.docx');
-        $extension_pdf = array('.pdf');
-       /* $extension_audio = array('.mp3');
-        $extension_video = array('.mvk','.avi','.mp4');*/
         $username = $_SESSION['username'];
         $name = $_FILES["file"]['name'];
         $url ='uploads/' . $username . '/' .  $_FILES["file"]['name'];
-
-
-
-                if (in_array(file_extension($_FILES["file"]['name']), $extension_images)) {
-                    $type = 'image';
-
-                } else if (in_array(file_extension($_FILES["file"]['name']), $extension_txt)) {
-                    $type = 'text';
-                } else if (in_array(file_extension($_FILES["file"]['name']), $extension_pdf)) {
-                    $type = 'pdf';
-                }
-               /* else if (in_array(file_extension($_FILES["file"]['name']), $extension_audio)) {
-                    $type = 'audio';
-                }
-                else if (in_array(file_extension($_FILES["file"]['name']), $extension_video)) {
-                    $type = 'video';
-                }*/
-
-
-
-                if ($post['edit_name']) {
+        $type= dirname(mime_content_type($_FILES["file"]["tmp_name"]));
+         if ($post['edit_name']) {
                     $files['file_name'] = $post['edit_name'];
 
                 } else {
@@ -169,24 +154,16 @@ function replace_file()
         $id_user = $_SESSION['user_id'];
         $new_url = 'uploads/' . $_SESSION['username'] . '/' . $new_file_name;
         $old_url = 'uploads/' . $_SESSION['username'] . '/' . $file_to_replace;
-        $type = '';
-        $extension_images = array('.jpg', '.jpeg', '.png', 'gif');
-        $extension_txt = array('.txt', '.docx');
-        $extension_pdf = array('.pdf');
-        if (in_array(file_extension($new_file_name), $extension_images)) {
-            $type = 'image';
 
-        } else if (in_array(file_extension($new_file_name), $extension_txt)) {
-            $type = 'text';
-        } else if (in_array(file_extension($new_file_name), $extension_pdf)) {
-            $type = 'pdf';
-        }
+
+        $type= dirname(mime_content_type($_FILES["file_to_replace"]["tmp_name"]));
 
         find_one_secure("UPDATE files SET file_url = :new_url
             WHERE  id_user= :id_user AND file_name = :file_to_replace ",
             ['id_user' => $id_user,
                 'file_to_replace' => $file_to_replace,
-                'new_url' => $new_url]);
+                'new_url' => $new_url
+            ]);
         find_one_secure("UPDATE files SET types = :types
             WHERE  id_user= :id_user AND file_name = :file_to_replace  ",
             ['id_user' => $id_user,
@@ -213,7 +190,6 @@ function replace_file()
             echo "File replace with success";
             header("Refreh:0");
             return true;
-
     }
 }
 
@@ -277,7 +253,7 @@ function extension_img()
 
 function delete_file()
 {
-    $bool = false;
+    $error = false;
     if (isset($_POST['submit_delete'])) {
         if ($_POST['file_to_delete'] !== '') {
             $id_user = $_SESSION['user_id'];
@@ -289,10 +265,10 @@ function delete_file()
             $text = $date . ' ' . $_SESSION['username'] . ' has delete' . ' ' . $file_url . "\n";
             write_log('access.log', $text);
             unlink($file_url);
-            $bool = true;
+            $error = true;
         }
     }
-    return $bool;
+    return $error;
 }
 
 function rename_file()
@@ -336,5 +312,25 @@ function errors(){
     $error['email']= 'Email already exist';
     $error['empty'] = 'Empty information';
     $error['rename'] = 'Name already taken';
+    $error['invalid'] = 'invalid Email';
+    return $error;
+}
+
+function modify()
+{
+    $error = false;
+    if (isset($_POST['modify'])) {
+
+            if(isset($_POST['txt_content']) && isset($_POST['url_txt']) && $_POST['url_txt'] != '') {
+            $file = $_POST['url_txt'];
+            $txt_content = $_POST['txt_content'];
+            file_put_contents($file, $txt_content);
+
+            $date = give_date();
+            $text = $date . ' ' . $_SESSION['username'] . ' has modify a txt' . ' ' . $file . ' ' . $txt_content . "\n";
+            write_log('access.log', $text);
+            $error = true;
+        }
+    }
     return $error;
 }

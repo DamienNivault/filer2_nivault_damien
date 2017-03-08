@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="assets/css/login.css" rel="stylesheet">
     <meta charset="utf-8">
     <title>Login page</title>
 </head>
