@@ -43,13 +43,22 @@ function user_check_register($data)
         return false;
     return true;
 }
+function user_check_by_password($data){
+    if( !isset($data['passwordRegister']) ||
+        ($data['passwordConfirm']) ||
+        $data['passwordRegister'] !=$data['passwordConfirm']) {
+            return false;
+    }
+    return true;
+
+}
 function get_user_by_email($email)
 {
     $data = find_one_secure("SELECT * FROM users WHERE email = :email",
         ['email' => $email]);
     return $data;
 }
-function verifEmail($data){
+function user_check_by_email($data){
     $invalid = false;
     if (!filter_var($data, FILTER_VALIDATE_EMAIL)) {
         $invalid = true;
@@ -178,15 +187,6 @@ function get_file_by_file_url($file_url)
     $data = find_one_secure("SELECT * FROM files WHERE file_url = :file_url AND 
     								id_user = :id_user",
         ['file_url' => $file_url,
-            'id_user' => $id_user]);
-    return $data;
-}
-function get_file_by_file_name($file_name)
-{
-    $id_user = $_SESSION['user_id'];
-    $data = find_one_secure("SELECT * FROM files WHERE file_name = :file_name AND 
-    								id_user = :id_user",
-        ['file_url' => $file_name,
             'id_user' => $id_user]);
     return $data;
 }

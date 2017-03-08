@@ -17,11 +17,13 @@
 <div id="formLogin">
 
     <form action="?action=login" method="POST">
-        Login : <input type="text" name="username"><br>
-        Password : <input type="password" name="password"><br>
+        <label for="username">Login :</label><br><br>
+        <input type="text" name="username" id="username"><br>
+        <label for="password"> Password :</label><br><br>
+        <input type="password" name="password" id="password"><br>
 
-        <input type="submit">
-        <span> Vous n'avez pas de compte ? <a href="?action=register">Inscrivez vous</a></span>
+        <input type="submit" value="Sign in">
+        <span> Don't  have an account ? <a href="?action=register"> Subscribe</a></span>
     </form>
 </div>
 </body>

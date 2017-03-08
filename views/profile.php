@@ -22,7 +22,7 @@
         <p>Error : <?php echo $error ?></p>
     <?php endif; ?>
 </div>
-<div id="form">
+<div id="form" class="align">
     <form action="?action=profile" method="POST" enctype="multipart/form-data" class="sendFile">
         <fieldset class="fieldsetSend">
             <legend> Drop you're file</legend>
@@ -51,7 +51,7 @@
 
 <?php
 foreach ($files as $key) {
-    echo "<div class='img_file'>";
+    echo "<div class='img_file align'>";
     if ($key['types'] === 'image') {
         echo "<img class='img' src=" . $key['file_url'] . " alt=" . $key['file_name'] . ">";
     } else if ($key['types'] === 'text') {

@@ -44,24 +44,29 @@ $errors = errors();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
-                    if( !isset($_POST['passwordRegister']) ||
-                        ($_POST['passwordConfirm']) ||
-                        $_POST['passwordRegister'] != $_POST['passwordConfirm']) {
-                        $error= $errors['password'];
-                        $date = give_date();
-                        $text = $date . ' '.'The confirm password is different'."\n";
-                        write_log('security.log', $text);
-                    }
-                   else  if (get_user_by_email($_POST["email"])) {
+
+                   if (!empty($_POST['email']) && get_user_by_email($_POST["email"])) {
                         $error= $errors['email'];
                         $date = give_date();
                         $text = $date . ' '.' user enter an email already exist  '."\n";
                         write_log('security.log', $text);
                     }
-                    if(verifEmail($_POST['email'])) {
+                   else if(!empty($_POST['email']) && user_check_by_email($_POST['email'])) {
                         $error= $errors['invalid'];
                         $date = give_date();
                         $text = $date . ' '.'User enter an invalid email'."\n";
+                        write_log('security.log', $text);
+                    }
+                    else if(!user_check_by_password($_POST)){
+                        $error= $errors['password'];
+                        $date = give_date();
+                        $text = $date . ' '.'The confirm password is different'."\n";
+                        write_log('security.log', $text);
+                    }
+                    else if(!user_check_register($_POST)){
+                        $error= $errors['empty'];
+                        $date = give_date();
+                        $text = $date . ' '.'User forget information'."\n";
                         write_log('security.log', $text);
                     }
                     else
@@ -84,24 +89,20 @@ function profile_action()
     if (!empty($_SESSION['user_id']))
     {
         $user = get_user_by_id($_SESSION['user_id']);
-
-        $add_file_succes = '';
-        $delete_file_succes = '';
         $files = my_files();
 
-            if(upload_file($_POST)){
-                $url = get_file_by_file_url($files);
-                $name = get_file_by_file_name($files);
-                if(file_exist($url)){
-                    $error='Ur file is already in';
+            if(upload_file($_POST)) {
+
+                if (file_exist($files['file_url'])) {
+                    $error = 'Ur file is already in';
                     $date = give_date();
-                    $text = $date . ' ' . $user['username'] . ' try to upload an exist file'."\n";
+                    $text = $date . ' ' . $user['username'] . ' try to upload an exist file' . "\n";
                     write_log('security.log', $text);
                 }
-                if(!extension_accept($name)){
+                if (!extension_accept($files['file_name'])) {
                     $error = 'Extension accept : .png,.jpeg,.gif,.docx,.txt,.pdf ';
                     $date = give_date();
-                    $text = $date . ' ' . $user['username'] . ' try to upload a wrong file'."\n";
+                    $text = $date . ' ' . $user['username'] . ' try to upload a wrong file' . "\n";
                     write_log('security.log', $text);
                 }
             }

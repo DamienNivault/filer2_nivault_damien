@@ -16,12 +16,16 @@
 </div>
 <div id="formRegister">
     <form action="?action=register" method="POST" name="register">
-        Login : <input type="text" name="usernameRegister"><br>
-        Email : <input type="text" name="email"><br> <span id="errorBlockEmail"></span>
-        Password : <input type="password" name="passwordRegister"><br>
-        Confirm Password : <input type="password" name="passwordConfirm"><br>
+        <label for="usernameRegister">Login : </label>
+        <input type="text" name="usernameRegister" id="usernameRegister"><br>
+        <label for="email">Email :</label>
+         <input type="text" name="email" id="email"><br> <span id="errorBlockEmail"></span>
+        <label for="passwordRegister">Password : </label>
+        <input type="password" name="passwordRegister" id="passwordRegister"><br>
+        <label for="passwordConfirm">Confirm Password : </label>
+        <input type="password" name="passwordConfirm" id="passwordConfirm"><br>
         <input type="submit" name="register">
-        <span> Vous avez déjà un compte ? <a href="?action=login">Connectez vous</a></span>
+            <span> Already have an account ? <a href="?action=login">Sign In</a></span>
 
     </form>
 </div>

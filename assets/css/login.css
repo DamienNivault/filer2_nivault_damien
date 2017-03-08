@@ -59,10 +59,6 @@
 #formLogin input[type="submit"]:hover {
     background-color: #34CACA; }
 
-.errorBlock {
-    color: #FF0000;
-    font-weight: bold; }
-
 #formLogin a {
     position: relative;
     text-decoration: none;
@@ -82,7 +78,12 @@ header{
 #blockError{
     height: 10px;
     color: red;
+    font-weight: bold;
 }
-
+#title{
+    margin-left: 30%;
+    font-weight: bold;
+    font-size : 150%;
+}
 /*# sourceMappingURL=style.css.map */
 
