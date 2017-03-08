@@ -35,22 +35,12 @@ function get_user_by_username($username)
  */
 function user_check_register($data)
 {
-
-
     if (empty($data['usernameRegister']) OR empty($data['passwordRegister']) OR empty($data['email']) OR empty($data['passwordConfirm'])) {
-
         return false;
     }
-
-
     $data = get_user_by_username($data['usernameRegister']);
     if ($data !== false)
         return false;
-
-
-
-
-    // TODO : Check valid email
     return true;
 }
 function get_user_by_email($email)
@@ -65,7 +55,6 @@ function verifEmail($data){
         $invalid = true;
         return $invalid;
     }
-
 }
 function user_hash($password)
 {
@@ -142,7 +131,6 @@ function upload_file($post="")
                 write_log('access.log', $text);
                 header("Refresh:0");
             }
-
 }
 
 function replace_file()
@@ -154,10 +142,7 @@ function replace_file()
         $id_user = $_SESSION['user_id'];
         $new_url = 'uploads/' . $_SESSION['username'] . '/' . $new_file_name;
         $old_url = 'uploads/' . $_SESSION['username'] . '/' . $file_to_replace;
-
-
         $type= dirname(mime_content_type($_FILES["file_to_replace"]["tmp_name"]));
-
         find_one_secure("UPDATE files SET file_url = :new_url
             WHERE  id_user= :id_user AND file_name = :file_to_replace ",
             ['id_user' => $id_user,
@@ -176,17 +161,11 @@ function replace_file()
                 'file_to_replace' => $file_to_replace,
                 'new_file_name' => $new_file_name
             ]);
-
-
-
-
             move_uploaded_file($tmp_name, $new_url);
             unlink($old_url);
-
             $date = give_date();
             $text = $date . ' ' . $_SESSION['username'] . ' has replace' . $file_to_replace . ' into ' . $new_file_name . ' ' . $new_url . $old_url.$type."\n";
             write_log('access.log', $text);
-
             echo "File replace with success";
             header("Refreh:0");
             return true;
@@ -274,7 +253,6 @@ function delete_file()
 function rename_file()
 {
     $error='';
-
     if (isset($_POST['submit_rename'])) {
         if ($_POST['current_file_name'] != '' && $_POST['file_to_rename'] != '' && $_POST['new_name'] != '') {
             $id_user = $_SESSION['user_id'];
@@ -284,14 +262,12 @@ function rename_file()
             $file_name = $_POST['new_name'] . $file_ext;
             $file_url = substr($current_file_url, 0, -(strlen($file_to_rename))) . $file_name;
             if (!file_exist($file_url)) {
-
                     rename_one_secure("UPDATE files SET file_name = :file_name , file_url = :file_url  WHERE id_user = :id_user AND file_url = :current_file_url",
                         ['file_name' => $file_name,
                             'file_url' => $file_url,
                             'current_file_url' => $current_file_url,
                             'id_user' => $id_user]);
                     rename($current_file_url, $file_url);
-
                 }
                 $date = give_date();
                 $text = $date . ' ' . $_SESSION['username'] . ' has rename' . ' ' . $file_to_rename . ' ' . 'in' . ' ' . $file_name . "\n";
@@ -301,9 +277,6 @@ function rename_file()
             }
             }
         }
-
-
-
 }
 
 function errors(){
@@ -318,7 +291,7 @@ function errors(){
 
 function modify()
 {
-    $error = false;
+    $valid = false;
     if (isset($_POST['modify'])) {
 
             if(isset($_POST['txt_content']) && isset($_POST['url_txt']) && $_POST['url_txt'] != '') {
@@ -329,8 +302,8 @@ function modify()
             $date = give_date();
             $text = $date . ' ' . $_SESSION['username'] . ' has modify a txt' . ' ' . $file . ' ' . $txt_content . "\n";
             write_log('access.log', $text);
-            $error = true;
+            $valid = true;
         }
     }
-    return $error;
+    return $valid;
 }

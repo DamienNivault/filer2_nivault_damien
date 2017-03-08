@@ -79,6 +79,10 @@ header{
     font-size: 130%;
     font-weight: bold;
 }
+#blockError{
+    height: 10px;
+    color: red;
+}
 
 /*# sourceMappingURL=style.css.map */
 

@@ -120,6 +120,7 @@ function profile_action()
 
 
     if(modify()){
+            $error='File modify';
         header('Location: ?action=profile');
     }
 

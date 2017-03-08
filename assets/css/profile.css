@@ -173,7 +173,7 @@ header{
     margin: 5%;
 }
 #blockError{
-    height: 100px;
+    height: 10px;
     color: red;
 }
 #welcomeSession{
@@ -212,4 +212,7 @@ textarea{
     width: 80%;
     height: 70vh;
 
+}
+.show{
+    display: block;
 }
